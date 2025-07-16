@@ -1,0 +1,81 @@
+# Membership System
+
+## Starting the Project
+
+Once you clone the repo, first create .env file take refrence from .env.save
+
+Run `npm install` to install the dependencies
+
+To run the project use `npm start`.
+
+For development (auto reload on change) use `npm run dev`
+
+The Server will be started on port 5000 (default) or port defined on .env
+
+## Initial Admin Setup (SuperAdmin)
+
+- First, comment out adminAuth and hasPermission(CREATE_ADMIN), on routes/admin. Then Create the Admin with the API.
+  ```js
+  router.post(
+    '/',
+    // adminAuth,
+    // hasPermission(CREATE_ADMIN),
+    adminController.postCreateAdmin
+  );
+  ```
+- Activate the Admin from the database
+- Get the admin Id (from me profile / database)
+- A role named SuperAdmin should have already been created.
+- Get the roleId from the Database
+- comment out hasPermission(ASSIGN_ROLE) on routes/admin
+  ```js
+  router.patch(
+    '/:adminId/role',
+    adminAuth,
+    // hasPermission(ASSIGN_ROLE),
+    adminController.patchAssignRole
+  );
+  ```
+- Hit the API with this AdminId and that RoleID
+- Remove the comment from all 3
+
+      ```js
+      adminAuth, // post create Admin one
+      hasPermission(CREATE_ADMIN), // post create Admin one
+
+      hasPermission(ASSIGN_ROLE), // patch Assign Role one
+      ```
+
+That's it, the created Admin is SuperAdmin. Who can now create Admin, Create Roles and Assign Roles to admin
+
+## Logging
+
+We are using a loggin library called winston.
+
+With the logger, you can log a text or a text and a object.
+
+```js
+logger.info('text'); // just text
+logger.info('text', { key: 'value' }); // text and obj
+logger.error('error message'); // just message
+logger.error('error message', error); // error message and error obj
+```
+
+Default log level is info. you can change it from .env
+
+There are verious logger methods available, among them, we generally use
+
+```js
+logger.error('error message here');
+logger.warn('Warning message');
+logger.info('Hello World');
+logger.debug('Debug me');
+```
+
+### Updaing Log level
+
+When Debugging, we need to update log level without restarting the process, for that we have created a endpoint, which we will call internally when needed.
+
+### Managing Growing Logs
+
+Logs will grow over time, thus to make it easy for us to manage, we will archive logs everyday. for that we have created the `manage-log.sh`. This script should run everyday through cron job

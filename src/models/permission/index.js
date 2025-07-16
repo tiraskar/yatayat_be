@@ -1,0 +1,13 @@
+const permissions = {
+  VIEW_ADMIN: 'VIEW_ADMIN',
+  EDIT_ADMIN: 'EDIT_ADMIN',
+
+  CREATE_ROLE: 'CREATE_ROLE',
+  VIEW_ROLE: 'VIEW_ROLE',
+  EDIT_ROLE: 'EDIT_ROLE',
+  ASSIGN_ROLE: 'ASSIGN_ROLE',
+
+  VIEW_PERMISSION: 'VIEW_PERMISSION'
+};
+
+module.exports = permissions;
